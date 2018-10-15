@@ -76,6 +76,25 @@ else
 
 endif
 
+# Add aliases for python executables                                                           
+set sitepackagesdir=`python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
+
+alias gtburst "python $sitepackagesdir/$condaname/gtburst.py"
+alias ModelEditor "python $sitepackagesdir/$condaname/ModelEditor.py"
+alias ObsSim "python $sitepackagesdir/$condaname/ObsSim.py"
+
+# Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set                                   
+
+if ($?LD_LIBRARY_PATH) then
+    # Issue warning                                                                            
+    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermi ST"
+endif
+
+if ($?PYTHONPATH) then
+    # Issue warning                                                                            
+    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermi ST"
+endif
+
 # We need to make sure that the path to the ST library dir is
 # contained in the paths that ROOT will search for libraries, 
 # because the dynamic loader of ROOT does not honor RPATH
@@ -96,22 +115,3 @@ if(!old_value.Contains("lib/${condaname}")) {
 }
 exit();
 EOF
-
-# Add aliases for python executables
-set sitepackagesdir=`python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
-
-alias gtburst "python $sitepackagesdir/$condaname/gtburst.py"
-alias ModelEditor "python $sitepackagesdir/$condaname/ModelEditor.py"
-alias ObsSim "python $sitepackagesdir/$condaname/ObsSim.py"
- 
-# # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
-
-if ($?LD_LIBRARY_PATH) then 
-    # Issue warning
-    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-endif
-
-if ($?PYTHONPATH) then 
-    # Issue warning
-    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-endif
